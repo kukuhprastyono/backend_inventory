@@ -42,6 +42,54 @@ class Barang extends CI_Controller
         echo json_encode($data_json);
     }
 
+    public function list_barang_ajax()
+    {
+        $limit = $this->input->get('length');
+        $offset = $this->input->get('start');
+        $orderby = $this->input->get('order[0][column]');
+        $method = $this->input->get('order[0][dir]');
+        if ($orderby == 0) {
+            $orderby = 'nama_barang';
+        } elseif ($orderby == 1) {
+            $orderby = 'deskripsi';
+        } elseif ($orderby == 2) {
+            $orderby = 'stok';
+        } elseif ($orderby == 3) {
+            $orderby = 'foto_produk';
+        } else {
+            $orderby = 'nama_barang';
+        }
+        $data_barang = $this->Barang_model->get_barang_ajax(
+            $limit,
+            $offset,
+            $orderby,
+            $method
+        );
+        $draw = (int) $this->input->get('draw');
+        $recordsTotal = $this->Barang_model->get_barang()->num_rows();
+        $recordsFiltered = $recordsTotal;
+        $data = array();
+        foreach ($data_barang->result() as $key => $value) {
+            $row = array();
+            $row[] = $value->nama_barang;
+            $row[] = $value->deskripsi;
+            $row[] = $value->stok;
+            $row[] = '<img src="' . base_url() . 'foto/' . $value->id_barang . '/' . $value->foto_produk . '" width="50">';
+
+            $row[] = 'Read | <a href="#' . $value->id_barang . '" class="linkHapusBarang"
+
+>Hapus</a> | <a href="#' . $value->id_barang . '" class="linkEditBarang" >Edit</a>';
+            $data[] = $row;
+        }
+        $data_json = array(
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $data,
+        );
+        echo json_encode($data_json);
+    }
+
     public function create_action()
     {
         $this->db->trans_start();

@@ -16,11 +16,23 @@ class Barang_model extends CI_Model
         if ($cari_deskripsi != '' && $cari_deskripsi != null) {
             $this->db->like('deskripsi', $cari_deskripsi);
         }
-        
+
         if ($cari_stok != '' && $cari_stok != null) {
             $this->db->where('stok <=', $cari_stok);
         }
 
+        return $this->db->get();
+    }
+
+    public function get_barang_ajax($limit, $offset, $orderby, $method)
+    {
+        $this->db->select('*');
+        $this->db->from('barang');
+        $this->db->where('status_delete', 0);
+        if ($limit > -1) {
+            $this->db->limit($limit, $offset);
+        }
+        $this->db->order_by($orderby, $method);
         return $this->db->get();
     }
 
