@@ -13,13 +13,16 @@ class Barang extends CI_Controller
     {
         $data_barang = $this->Barang_model->get_barang();
 
-        $konten = '<tr>
-            <td>Nama</td>
-            <td>Deskripsi</td>
-            <td>Stok</td>
-            <td>Foto</td>
-            <td>Aksi</td>
-        </tr>';
+        $konten = '
+        <thead>
+            <tr>
+                <td>Nama</td>
+                <td>Deskripsi</td>
+                <td>Stok</td>
+                <td>Foto</td>
+                <td>Aksi</td>
+            </tr>
+        </thead>';
 
         foreach ($data_barang->result() as $key => $value) {
             $konten .= '
