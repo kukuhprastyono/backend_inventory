@@ -27,7 +27,7 @@ class Barang extends CI_Controller
                     <td>' . $value->nama_barang . '</td>
                     <td>' . $value->deskripsi . '</td>
                     <td>' . $value->stok . '</td>
-                    <td><img src="' . base_url() . '/foto/' . $value->id_barang . '/' . $value->foto_produk . '" width="50"></td>
+                    <td><img src="' . base_url() . 'foto/' . $value->id_barang . '/' . $value->foto_produk . '" width="50"></td>
                     <td>Read | <a href="#' . $value->id_barang . '" class="linkHapusBarang">Hapus</a> | <a href="#' . $value->id_barang . '" class="linkEditBarang">Edit</a>
                     </td>
                 </tr>
@@ -207,7 +207,7 @@ class Barang extends CI_Controller
 
         if ($this->upload->do_upload('file')) {
             $data_barang = array(
-                'foto_produk'   => $this->upload->data('file_name'),
+                'foto_produk'   => $this->upload->data('file_name')
             );
 
             $this->Barang_model->update_data($id_barang, $data_barang);
